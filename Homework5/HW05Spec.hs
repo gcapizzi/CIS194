@@ -37,3 +37,23 @@ main = hspec $ do
     it "is parseable" $ do
       parse "[[1,2][3,4]] *" `shouldBe` Just ((Mat2x2 1 2 3 4), " *")
       parseRing "[[1,2][3,4]] + [[5,6][7,8]]" `shouldBe` Just (Mat2x2 6 8 10 12)
+
+  describe "Bool" $ do
+    it "supports addition" $ do
+      add True False `shouldBe` True
+    it "uses False as the additive identity" $ do
+      add True addId `shouldBe` True
+      add False addId `shouldBe` False
+    it "uses negation as the additive inverse" $ do
+      add True (addInv True) `shouldBe` addId
+      add False (addInv False) `shouldBe` addId
+    it "supports multiplication" $ do
+      mul True True `shouldBe` True
+      mul True False `shouldBe` False
+      mul False True `shouldBe` False
+      mul False False `shouldBe` False
+    it "uses True as the multiplicative identity" $ do
+      mul True mulId `shouldBe` True
+      mul False mulId `shouldBe` False
+    it "is parseable" $ do
+      parseRing "True + False * True" `shouldBe` Just True

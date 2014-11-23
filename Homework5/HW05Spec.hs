@@ -35,4 +35,5 @@ main = hspec $ do
     it "uses [[1,0][0,1]] as the multiplicative identity" $ do
       mul (Mat2x2 1 2 3 4) mulId `shouldBe` (Mat2x2 1 2 3 4)
     it "is parseable" $ do
-      parseRing "[[1,2][3,4]] + [[5,6][7,8]]" `shouldBe` Just (Mat2x2 19 22 43 50)
+      parse "[[1,2][3,4]] *" `shouldBe` Just ((Mat2x2 1 2 3 4), " *")
+      parseRing "[[1,2][3,4]] + [[5,6][7,8]]" `shouldBe` Just (Mat2x2 6 8 10 12)

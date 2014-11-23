@@ -2,6 +2,7 @@ module HW05 where
 
 import Ring
 import Parser
+import Data.List
 
 data Mod5 = Mod5 Integer deriving (Show, Eq)
 
@@ -35,4 +36,15 @@ instance Ring Mat2x2 where
   mulId = (Mat2x2 1 0 0 1)
 
 instance Parsable Mat2x2 where
-  parse x = Just ((Mat2x2 0 0 0 0), "")
+  parse x = do
+    rest <- stripPrefix "[[" x
+    (a, rest) <- parse rest
+    rest <- stripPrefix "," rest
+    (b, rest) <- parse rest
+    rest <- stripPrefix "][" rest
+    (c, rest) <- parse rest
+    rest <- stripPrefix "," rest
+    (d, rest) <- parse rest
+    rest <- stripPrefix "]]" rest
+
+    return ((Mat2x2 a b c d), rest)

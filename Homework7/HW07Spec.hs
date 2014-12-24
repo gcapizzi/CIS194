@@ -12,3 +12,6 @@ main = hspec $ do
     describe "fibs1" $ do
         it "computes the infinite list of Fibonacci numbers" $ do
             take 15 fibs1 `shouldBe` [0,1,1,2,3,5,8,13,21,34,55,89,144,233,377]
+    describe "fibs2" $ do
+        it "computes the infinite list of Fibonacci numbers" $ do
+            take 15 fibs2 `shouldBe` [0,1,1,2,3,5,8,13,21,34,55,89,144,233,377]

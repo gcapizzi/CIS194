@@ -15,3 +15,7 @@ main = hspec $ do
     describe "fibs2" $ do
         it "computes the infinite list of Fibonacci numbers" $ do
             take 15 fibs2 `shouldBe` [0,1,1,2,3,5,8,13,21,34,55,89,144,233,377]
+    describe "Stream" $ do
+        describe "show" $ do
+            it "shows the first 20 elements" $ do
+                show (repeatStream 1) `shouldBe` "[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]"

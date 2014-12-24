@@ -25,3 +25,12 @@ main = hspec $ do
         describe "streamFromSeed" $ do
             it "generates a Stream from a seed and an unfolding rule" $ do
                 show (streamFromSeed (+1) 1) `shouldBe` "[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"
+        describe "nats" $ do
+            it "generates the Stream of natural numbers" $ do
+                show nats `shouldBe`  "[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]"
+        describe "ruler" $ do
+            it "generates the Stream of values from the ruler function" $ do
+                show ruler `shouldBe` "[0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2]"
+        describe "streamInterleave" $ do
+            it "interleaves two streams" $ do
+                show (streamInterleave (streamRepeat 0) (streamRepeat 1)) `shouldBe` "[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]"

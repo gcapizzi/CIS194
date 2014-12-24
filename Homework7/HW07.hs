@@ -27,3 +27,12 @@ streamMap f (Cons x xs) = (Cons (f x) (streamMap f xs))
 
 streamFromSeed :: (a -> a) -> a -> Stream a
 streamFromSeed rule seed = (Cons seed (streamFromSeed rule (rule seed)))
+
+nats :: Stream Integer
+nats = streamFromSeed (+1) 0
+
+streamInterleave :: Stream a -> Stream a -> Stream a
+streamInterleave (Cons x xs) ys = (Cons x (streamInterleave ys xs))
+
+ruler :: Stream Integer
+ruler = foldr (streamInterleave) (streamRepeat 123) (map streamRepeat [0..])

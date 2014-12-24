@@ -16,8 +16,14 @@ data Stream a = Cons a (Stream a)
 streamToList :: Stream a -> [a]
 streamToList (Cons x xs) = x:streamToList xs
 
-repeatStream :: a -> Stream a
-repeatStream x = Cons x (repeatStream x)
+streamRepeat :: a -> Stream a
+streamRepeat x = Cons x (streamRepeat x)
 
 instance Show a => Show (Stream a) where
     show xs = show (take 20 $ streamToList xs)
+
+streamMap :: (a -> b) -> Stream a -> Stream b
+streamMap f (Cons x xs) = (Cons (f x) (streamMap f xs))
+
+streamFromSeed :: (a -> a) -> a -> Stream a
+streamFromSeed rule seed = (Cons seed (streamFromSeed rule (rule seed)))

@@ -1,5 +1,8 @@
+{-# LANGUAGE BangPatterns #-}
+
 module HW07 where
 
+import Data.List
 import System.Random
 
 fib :: Integer -> Integer
@@ -46,3 +49,14 @@ randomList gen = n:randomList newGen
 randomInts :: Int -> [Int]
 randomInts size = take size $ randomList gen
     where gen = mkStdGen 42
+
+minMax :: [Int] -> Maybe (Int, Int) -- 302 MB total memory in use
+minMax [] = Nothing
+minMax xs = Just (minimum xs, maximum xs)
+
+minMax2 :: [Int] -> Maybe (Int, Int) -- 1 MB total memory in use
+minMax2 [] = Nothing
+minMax2 (x:xs) = Just $ foldl' (\(!a, !b) n -> (min a n, max b n)) (x, x) xs
+
+main :: IO ()
+main = print $ minMax2 $ randomInts 1000000

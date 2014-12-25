@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns #-}
+{-# OPTIONS_GHC -fno-warn-missing-methods -XBangPatterns #-}
 
 module HW07 where
 
@@ -57,6 +57,21 @@ minMax xs = Just (minimum xs, maximum xs)
 minMax2 :: [Int] -> Maybe (Int, Int) -- 1 MB total memory in use
 minMax2 [] = Nothing
 minMax2 (x:xs) = Just $ foldl' (\(!a, !b) n -> (min a n, max b n)) (x, x) xs
+
+data Matrix = Matrix Integer Integer Integer Integer deriving (Eq, Show)
+
+instance Num Matrix where
+    (Matrix x11 x12 x21 x22) * (Matrix y11 y12 y21 y22) = Matrix z11 z12 z21 z22
+        where z11 = x11 * y11 + x12 * y21
+              z12 = x11 * y12 + x12 * y22
+              z21 = x21 * y11 + x22 * y21
+              z22 = x21 * y12 + x22 * y22
+    fromInteger n = Matrix n 0 0 n
+
+fib4 :: Integer -> Integer
+fib4 0 = 0
+fib4 n = fn
+    where (Matrix _ fn _ _) = (Matrix 1 1 1 0) ^ n
 
 main :: IO ()
 main = print $ minMax2 $ randomInts 1000000

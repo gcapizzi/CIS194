@@ -9,12 +9,15 @@ main = hspec $ do
             fib 0 `shouldBe` 0
             fib 1 `shouldBe` 1
             fib 9 `shouldBe` 34
+
     describe "fibs1" $ do
         it "computes the infinite list of Fibonacci numbers" $ do
             take 15 fibs1 `shouldBe` [0,1,1,2,3,5,8,13,21,34,55,89,144,233,377]
+
     describe "fibs2" $ do
         it "computes the infinite list of Fibonacci numbers" $ do
             take 15 fibs2 `shouldBe` [0,1,1,2,3,5,8,13,21,34,55,89,144,233,377]
+
     describe "Stream" $ do
         describe "show" $ do
             it "shows the first 20 elements" $ do
@@ -34,3 +37,14 @@ main = hspec $ do
         describe "streamInterleave" $ do
             it "interleaves two streams" $ do
                 show (streamInterleave (streamRepeat 0) (streamRepeat 1)) `shouldBe` "[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1]"
+
+    describe "Matrix" $ do
+        it "can be multiplied" $ do
+            (Matrix 1 3 4 2) * (Matrix 1 3 2 1) `shouldBe` (Matrix 7 6 8 14)
+
+    describe "fib4" $ do
+        it "computes the Fibonacci function" $ do
+            fib4 0 `shouldBe` 0
+            fib4 1 `shouldBe` 1
+            fib4 9 `shouldBe` 34
+

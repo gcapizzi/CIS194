@@ -1,5 +1,7 @@
 module HW07 where
 
+import System.Random
+
 fib :: Integer -> Integer
 fib 0 = 0
 fib 1 = 1
@@ -36,3 +38,11 @@ streamInterleave (Cons x xs) ys = (Cons x (streamInterleave ys xs))
 
 ruler :: Stream Integer
 ruler = foldr (streamInterleave) (streamRepeat 123) (map streamRepeat [0..])
+
+randomList :: (Random a, RandomGen g) => g -> [a]
+randomList gen = n:randomList newGen
+    where (n, newGen) = random gen
+
+randomInts :: Int -> [Int]
+randomInts size = take size $ randomList gen
+    where gen = mkStdGen 42

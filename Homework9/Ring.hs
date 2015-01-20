@@ -103,10 +103,10 @@ instance Parsable Mat2x2 where
 -- Boolean algebra
 instance Ring Bool where
   addId  = False
-  addInv = not
+  addInv = id
   mulId  = True
 
-  add = (||)
+  add x y = (x && (not y)) || (y && (not x))
   mul = (&&)
 
 instance Parsable Bool where

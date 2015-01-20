@@ -43,4 +43,37 @@ prop_7 x y z = x `mul` (y `add` z) == (x `mul` y) `add` (x `mul` z)
 prop_8 :: (Ring a, Eq a) => a -> a -> a -> Bool
 prop_8 x y z = (y `add` z) `mul` x == (y `mul` x) `add` (z `mul` x)
 
-main = quickCheck (prop_8 :: Mod5 -> Mod5 -> Mod5 -> Bool)
+prop_ring :: (Ring a, Eq a) => a -> a -> a -> Property
+prop_ring x y z = conjoin [prop_1 x y z,
+                           prop_2 x,
+                           prop_3 x,
+                           prop_4 x y,
+                           prop_5 x y z,
+                           prop_6 x,
+                           prop_7 x y z,
+                           prop_8 x y z]
+
+main = do
+    putStrLn "prop_1"
+    quickCheck $ (prop_1 :: Bool -> Bool -> Bool -> Bool)
+
+    putStrLn "prop_2"
+    quickCheck $ (prop_2 :: Bool -> Bool)
+
+    putStrLn "prop_3"
+    quickCheck $ (prop_3 :: Bool -> Bool)
+
+    putStrLn "prop_4"
+    quickCheck $ (prop_4 :: Bool -> Bool -> Bool)
+
+    putStrLn "prop_5"
+    quickCheck $ (prop_5 :: Bool -> Bool -> Bool -> Bool)
+
+    putStrLn "prop_6"
+    quickCheck $ (prop_6 :: Bool -> Bool)
+
+    putStrLn "prop_7"
+    quickCheck $ (prop_7 :: Bool -> Bool -> Bool -> Bool)
+
+    putStrLn "prop_8"
+    quickCheck $ (prop_8 :: Bool -> Bool -> Bool -> Bool)

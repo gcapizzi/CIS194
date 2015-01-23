@@ -1,8 +1,10 @@
 module HW09 where
 
+import Test.HUnit
 import Test.QuickCheck
 import Ring
 import Data.Functor
+import System.Random
 
 instance Arbitrary Mod5 where
     arbitrary = do
@@ -53,27 +55,24 @@ prop_ring x y z = conjoin [prop_1 x y z,
                            prop_7 x y z,
                            prop_8 x y z]
 
-main = do
-    putStrLn "prop_1"
-    quickCheck $ (prop_1 :: Bool -> Bool -> Bool -> Bool)
+data BST a = Leaf | Node (BST a) a (BST a)
+  deriving Show
 
-    putStrLn "prop_2"
-    quickCheck $ (prop_2 :: Bool -> Bool)
+genBST :: (Arbitrary a, Random a) => a -> a -> Gen (BST a)
+genBST lowerBound upperBound = do
+    makeLeaf <- arbitrary
+    if makeLeaf
+        then return Leaf
+        else do
+            x <- choose (lowerBound, upperBound)
+            leftTree <- genBST lowerBound x
+            rightTree <- genBST x upperBound
+            return $ Node leftTree x rightTree
 
-    putStrLn "prop_3"
-    quickCheck $ (prop_3 :: Bool -> Bool)
-
-    putStrLn "prop_4"
-    quickCheck $ (prop_4 :: Bool -> Bool -> Bool)
-
-    putStrLn "prop_5"
-    quickCheck $ (prop_5 :: Bool -> Bool -> Bool -> Bool)
-
-    putStrLn "prop_6"
-    quickCheck $ (prop_6 :: Bool -> Bool)
-
-    putStrLn "prop_7"
-    quickCheck $ (prop_7 :: Bool -> Bool -> Bool -> Bool)
-
-    putStrLn "prop_8"
-    quickCheck $ (prop_8 :: Bool -> Bool -> Bool -> Bool)
+parserTests :: Test
+parserTests = TestList [parseAll "3" ~?= Just (3 :: Integer),
+                        parseAll "3" ~?= Just (MkMod 3),
+                        parseAll "5" ~?= Just (MkMod 0),
+                        parseAll "[[1,2][3,4]]" ~?= Just (MkMat 1 2 3 4),
+                        parseAll "True" ~?= Just True,
+                        parseAll "False" ~?= Just False]

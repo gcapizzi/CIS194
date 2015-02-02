@@ -1,4 +1,7 @@
-# CIS 194: Introduction to Haskell (Fall 2014)
+# CIS 194: Introduction to Haskell
 
-My solutions to the course homework. All the course material can be found
-[here](http://www.seas.upenn.edu/~cis194/lectures.html).
+My solutions to the courses homework. All the courses material can be found
+on the corresponding pages:
+
+* [Spring '13](http://www.seas.upenn.edu/~cis194/spring13)
+* [Fall '14](http://www.seas.upenn.edu/~cis194/fall14)

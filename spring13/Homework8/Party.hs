@@ -1,22 +1,17 @@
 module Party where
 
-import Employee
-import Data.Monoid
 import Data.Tree
-import Debug.Trace
+
+import Employee
 
 glCons :: Employee -> GuestList -> GuestList
-glCons employee (GL employees fun) = GL (employee:employees) (fun + empFun employee)
+glCons employee (GL list fun) = GL (list ++ [employee]) (fun + empFun employee)
+
+moreFun (GL _ funOne) (GL _ funTwo) = funOne > funTwo
 
 instance Monoid GuestList where
   mempty = GL [] 0
-  mappend (GL xs xfun) (GL ys yfun) = GL (xs ++ ys) (xfun + yfun)
+  mappend (GL listOne funOne) (GL listTwo funTwo) = GL (listOne ++ listTwo) (funOne + funTwo)
 
-moreFun :: GuestList -> GuestList -> GuestList
-moreFun xs@(GL _ xfun) ys@(GL _ yfun)
-  | xfun >= yfun = xs
-  | otherwise    = ys
-
-treeFold :: (Show a, Show b) => ([b] -> a -> b) -> b -> Tree a -> b
-treeFold f z (Node x []) = f [z] x
-treeFold f z (Node x subTrees) = f (map (treeFold f z) subTrees) x
+treeFold :: b -> ([b] -> a -> b) -> Tree a -> b
+treeFold z f (Node x ts) = f (map (treeFold z f) ts) x
